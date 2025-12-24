@@ -611,7 +611,7 @@ router.post('/createJob', async function (req, res, next) {
   const { post_name, description, last_date_of_application } = req.body;
   try {
     const results = await db.executeQuery(
-      'INSERT INTO vss_recruitment(post_name, description, last_date_of_application) VALUES(?,?,?)',
+      'INSERT INTO recruitment(post_name, description, last_date_of_application) VALUES(?,?,?)',
       [post_name, description, last_date_of_application]
     );
     
@@ -631,7 +631,7 @@ router.put('/updateJob', async function (req, res, next) {
   const { id, post_name, description, last_date_of_application } = req.body;
   try {
     const results = await db.executeQuery(
-      'UPDATE vss_recruitment SET post_name=?, description=?, last_date_of_application=? WHERE id=?;',
+      'UPDATE recruitment SET post_name=?, description=?, last_date_of_application=? WHERE id=?;',
       [post_name, description, last_date_of_application, id]
     );
 
@@ -652,7 +652,7 @@ router.put('/updateJob', async function (req, res, next) {
 router.get('/getJobs', async function (req, res, next) {
   try {
     const results = await db.executeQuery(
-      'SELECT * FROM vss_recruitment WHERE last_date_of_application>=current_date();',
+      'SELECT * FROM recruitment WHERE last_date_of_application>=current_date();',
       []
     );
     if (results.length) {
@@ -672,7 +672,7 @@ router.delete('/deleteJob', async function (req, res, next) {
   const { id } = req.body;
   try {
     const results = await db.executeQuery(
-      "DELETE FROM vss_recruitment WHERE id = ?;",
+      "DELETE FROM recruitment WHERE id = ?;",
       [id]
     );
 
