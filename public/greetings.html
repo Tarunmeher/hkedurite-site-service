@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advance Happy New Year 2026!</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #0f0c29;
+            background: linear-gradient(to bottom, #24243e, #302b63, #0f0c29);
+            color: white;
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            height: 100vh;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .container {
+            z-index: 2;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 4rem;
+            margin-bottom: 0;
+            text-shadow: 0 0 20px #ff00ff, 0 0 30px #00ffff;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        .year {
+            font-size: 7rem;
+            font-weight: bold;
+            display: block;
+            background: linear-gradient(45deg, #f3ec78, #af4261);
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+
+        #countdown {
+            font-size: 1.5rem;
+            margin-top: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px 30px;
+            border-radius: 50px;
+            backdrop-filter: blur(5px);
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073;
+            }
+
+            to {
+                text-shadow: 0 0 20px #fff, 0 0 30px #ff4da6, 0 0 40px #ff4da6;
+            }
+        }
+
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        #createBtn {
+            padding: 10px;
+            background-color: rgba(255, 255, 255, 0.207);
+            display: block;
+            z-index: 100;
+            cursor: pointer;
+            position: absolute;
+            text-align: center;
+            width: 100%;
+            margin: auto;
+            margin-top: 50px;
+        }
+
+
+        /* Modal Overlay: Covers the whole screen */
+        .modal-overlay {
+            display: none;
+            /* Hidden by default */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Modal Box */
+        .modal-content {
+            background: #1a1a2e;
+            color: white;
+            padding: 30px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 450px;
+            text-align: center;
+            position: relative;
+            border: 1px solid #302b63;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.2);
+            animation: slideDown 0.4s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 28px;
+            cursor: pointer;
+            color: #888;
+        }
+
+        .close-btn:hover {
+            color: #fff;
+        }
+
+        .modal-header h2 {
+            margin-top: 0;
+            background: linear-gradient(45deg, #00ffff, #ff00ff);
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #af4261, #f3ec78);
+            border: none;
+            padding: 10px 25px;
+            border-radius: 25px;
+            color: #000;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+        }
+
+        .modal-body input {
+            padding: 5px;
+            width: 80%;
+        }
+
+        #message {
+            width: 82%;
+        }
+    </style>
+</head>
+
+<body onload="showMessage()">
+
+    <canvas id="fireworks"></canvas>
+
+    <div class="container">
+        <h3><span id="wisher"></span> wishing you an</h3>
+        <h1>ADVANCE HAPPY</h1>
+        <span class="year">2026</span>
+        <div id="msgText"></div>
+        <div id="countdown">Loading countdown...</div>
+    </div>
+    <div><span style="color: gray;">Powered By</span></div>
+    <div style="font-size: 1.1rem;">Hello Kids International School, Dharmagarh</div>
+
+    <div id="createBtn">Create yours and send to your friends</div>
+
+    <div id="greetingModal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <div class="modal-header">
+                <h2>✨ Secret Message for 2026 ✨</h2>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div>
+                        <label for="name">Enter Friends Name</label>
+                    </div>
+                    <div>
+                        <input type="text" id="name" required>
+                    </div>
+                </div>
+                <br>
+                <div>
+                    <div>
+                        <label for="message">Message to your friends</label>
+                    </div>
+                    <div>
+                        <textarea type="text" rows="5" id="message" required></textarea>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="modal-footer">
+                <button class="btn" onclick="createLink()">Create link</button>
+            </div>
+            <br>
+            <div id="generatedLink" style="display: none;">
+                <input type="text" id="link">
+                <button style="background: white;" class="btn" onclick="handleCopy()">Copy Link</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        function openModal() {
+            const modal = document.getElementById('greetingModal');
+            modal.style.display = 'flex';
+        }
+        function closeModal() {
+            document.getElementById('greetingModal').style.display = 'none';
+        }
+
+        document.getElementById("createBtn").addEventListener('click', function () {
+            openModal();
+        });
+
+
+
+
+
+        function handleCopy() {
+            const copyText = document.getElementById("link").value;
+
+            if (navigator.clipboard) {
+                copyToClipboard(copyText);
+            } else {
+                fallbackCopyText(copyText);
+            }
+        }
+
+
+        function fallbackCopyText(text) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            document.body.appendChild(textArea);
+            textArea.select();
+            try {
+                document.execCommand('copy');
+            } catch (err) {
+                console.error('Fallback copy failed', err);
+            }
+            document.body.removeChild(textArea);
+        }
+
+        async function copyToClipboard(text) {
+            try {
+                await navigator.clipboard.writeText(text);
+                console.log('Text copied to clipboard');
+
+                // Optional: Trigger a UI feedback (like your modal or a toast)
+                alert("Copied the message!");
+            } catch (err) {
+                console.error('Failed to copy: ', err);
+            }
+        }
+
+
+
+
+
+        // Countdown Logic
+        const targetDate = new Date("January 1, 2026 00:00:00").getTime();
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const diff = targetDate - now;
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const secs = Math.floor((diff % (1000 * 60)) / 1000);
+
+            document.getElementById("countdown").innerHTML =
+                `${days}d ${hours}h ${mins}m ${secs}s until 2026`;
+        }
+
+        setInterval(updateCountdown, 1000);
+
+        // Simple Particle Background
+        const canvas = document.getElementById('fireworks');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let particles = [];
+        for (let i = 0; i < 100; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                v: Math.random() * 2 + 0.5,
+                r: Math.random() * 2
+            });
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "white";
+            particles.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                ctx.fill();
+                p.y -= p.v;
+                if (p.y < 0) p.y = canvas.height;
+            });
+            requestAnimationFrame(draw);
+        }
+        draw();
+
+
+
+
+
+        // Helper to convert strings to buffers and vice versa
+        const enc = new TextEncoder();
+        const dec = new TextDecoder();
+
+        // 1. Generate a secure Key
+        async function generateKey() {
+            return await window.crypto.subtle.generateKey(
+                { name: "AES-GCM", length: 256 },
+                true,
+                ["encrypt", "decrypt"]
+            );
+        }
+
+        // 2. Encrypt the Payload
+        async function encryptPayload(plaintext, key) {
+            const iv = window.crypto.getRandomValues(new Uint8Array(12)); // Initialization Vector
+            const encoded = enc.encode(plaintext);
+
+            const ciphertext = await window.crypto.subtle.encrypt(
+                { name: "AES-GCM", iv: iv },
+                key,
+                encoded
+            );
+
+            return { ciphertext, iv };
+        }
+
+        // 3. Decrypt the Payload
+        async function decryptPayload(ciphertext, key, iv) {
+            const decrypted = await window.crypto.subtle.decrypt(
+                { name: "AES-GCM", iv: iv },
+                key,
+                ciphertext
+            );
+            return dec.decode(decrypted);
+        }
+
+
+        function bufferToBase64(buffer) {
+            return btoa(String.fromCharCode(...new Uint8Array(buffer)));
+        }
+
+        function base64ToBuffer(base64) {
+            const binaryString = atob(base64);
+            const bytes = new Uint8Array(binaryString.length);
+            for (let i = 0; i < binaryString.length; i++) {
+                bytes[i] = binaryString.charCodeAt(i);
+            }
+            return bytes.buffer;
+        }
+
+        // Helper: Transform a simple string into a usable CryptoKey
+        async function getCryptoKey(password) {
+            const enc = new TextEncoder();
+            const hash = await window.crypto.subtle.digest('SHA-256', enc.encode(password));
+            return await window.crypto.subtle.importKey(
+                'raw',
+                hash,
+                { name: 'AES-GCM' },
+                false,
+                ['encrypt', 'decrypt']
+            );
+        }
+
+        async function createLink() {
+            const name = document.getElementById('name').value;
+            const message = document.getElementById('message').value;
+            const payload = JSON.stringify({ name, message });
+
+            // 1. Generate valid Key and Encrypt
+            const key = await getCryptoKey('wish');
+            const encryptedData = await encryptPayload(payload, key);
+
+            // 2. Convert BOTH ciphertext and IV to strings
+            const ciphertextBase64 = bufferToBase64(encryptedData.ciphertext);
+            const ivBase64 = bufferToBase64(encryptedData.iv);
+
+            // 3. Put both in the URL (separated by a dot or underscore)
+            const token = `${ivBase64}.${ciphertextBase64}`;
+            const safeToken = encodeURIComponent(token);
+
+            const baseUrl = window.location.origin + window.location.pathname;
+            document.getElementById('link').value = `${baseUrl}?token=${safeToken}`;
+            document.getElementById('generatedLink').style.display = 'block';
+        }
+
+        async function showMessage() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const token = urlParams.get('token');
+
+            if (!token) return;
+
+            // 1. Split the token back into IV and Ciphertext
+            const [ivBase64, ciphertextBase64] = token.split('.');
+
+            const ivBuffer = base64ToBuffer(ivBase64);
+            const ciphertextBuffer = base64ToBuffer(ciphertextBase64);
+
+            // 2. Get the same key
+            const key = await getCryptoKey('wish');
+
+            try {
+                // 3. Decrypt
+                const decryptedText = await decryptPayload(ciphertextBuffer, key, ivBuffer);
+                const data = JSON.parse(decryptedText);
+
+                document.getElementById('wisher').innerHTML = data.name;
+                document.getElementById('msgText').innerHTML = data.message;
+                // Trigger your modal here!
+            } catch (e) {
+                console.error("Decryption failed. Wrong key or corrupted token.");
+            }
+        }
+
+
+
+
+
+    </script>
+</body>
+
+</html>
